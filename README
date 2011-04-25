@@ -1,6 +1,6 @@
 FixtureMaker
 
-A tool that for automatically creating fixtures which follow all foreign key relationships for a given QuerySet
+A tool for automatically creating fixtures which follow all foreign key relationships for a given QuerySet
 
 Usage:
 
@@ -18,5 +18,5 @@ Usage:
 
 7) Enjoy jSON fixtures for all foreign key connections in your queryset!\
 
-8) This is still a work in progress so please bear with me.
+8) This is still a work in progress so please bear with me, if there are any issues.
 
