@@ -1,0 +1,22 @@
+FixtureMaker
+
+A tool that for automatically creating fixtures which follow all foreign key relationships for a given QuerySet
+
+Usage:
+
+1) Put the script somewhere in your django project.
+
+2) Make a folder in the same directory as manage.py named 'fixture_maker'
+
+3) Run python manage.py shell
+
+4) Get your QuerySet
+
+5) import FixtureMaker, 'from fk_fixture_maker import FixtureMaker'
+
+6) Instantiate FixtureMaker with your QuerySet. eg FixtureMaker(your_QuerySet)
+
+7) Enjoy jSON fixtures for all foreign key connections in your queryset!\
+
+8) This is still a work in progress so please bear with me.
+
