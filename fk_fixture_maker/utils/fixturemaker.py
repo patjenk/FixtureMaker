@@ -1,7 +1,6 @@
 from django.core import serializers
 from django.db import models
 
-
 class FixtureMaker:
   """This Ouputs json fixtures for a given queryset following all foreign key relationships, requires a QuerySet
   object and a folder called fixture_maker in the same directory as manage.py"""
@@ -130,3 +129,24 @@ class FixtureMaker:
         print 'If you see this you most likely have to create a directory called \'fixture_maker\' in the same directory manage.py is in'
         return 
   
+def get_foreign_keys(objects, max_depth=1, excluded_models=[]):
+  """
+  Determine all foreign fields in a list of objects and return the objects.
+  """
+  result = []
+  if max_depth < 0:
+    return result
+  if len(objects) == 0:
+    return result
+  for object in objects:
+    for field in object._meta.fields:
+      if field.get_internal_type() == 'ForeignKey' and not field.related.parent_model in excluded_models and None != getattr(object, field.name):
+        result.extend(field.related.parent_model.objects.filter(pk=getattr(object, field.name).id))
+    m2m_fields = object._meta.many_to_many
+    if m2m_fields:
+      for field in m2m_fields:
+        if not field.related.parent_model in excluded_models:
+          print "%s %s" % (field.related.parent_model._meta.app_label, field.related.parent_model.__name__)
+          result.extend(getattr(object,field.name).all())
+  result.extend(get_foreign_keys(objects=result, max_depth=max_depth-1, excluded_models=excluded_models))
+  return result
