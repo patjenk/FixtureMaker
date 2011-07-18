@@ -146,7 +146,6 @@ def get_foreign_keys(objects, max_depth=1, excluded_models=[]):
     if m2m_fields:
       for field in m2m_fields:
         if not field.related.parent_model in excluded_models:
-          print "%s %s" % (field.related.parent_model._meta.app_label, field.related.parent_model.__name__)
           result.extend(getattr(object,field.name).all())
   result.extend(get_foreign_keys(objects=result, max_depth=max_depth-1, excluded_models=excluded_models))
   return result
