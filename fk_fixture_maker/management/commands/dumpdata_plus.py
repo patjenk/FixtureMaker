@@ -79,9 +79,12 @@ class Command(BaseCommand):
                 objects.extend(model._default_manager.using(using).all())
 
         objects.extend(get_foreign_keys(objects=objects, max_depth=max_depth-1, excluded_models=excluded_models))
+        objects.reverse()
+        unique_objects = list(set(objects))
+        unique_objects.sort(cmp=lambda x,y: cmp(objects.index(x), objects.index(y)))
 
         try:
-            return serializers.serialize(format, objects, indent=indent)
+            return serializers.serialize(format, unique_objects, indent=indent)
         except Exception, e:
             raise
             if show_traceback:
