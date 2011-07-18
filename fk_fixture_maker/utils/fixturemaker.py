@@ -19,7 +19,7 @@ class FixtureMaker:
                     'relationship': 'root',
                     'values': queryset,
                     }]]
-    connections = self.__get_all_foreign_fields_and_data(opts, queryset)    
+    connections = self.__get_all_foreign_fields_and_data(opts, queryset)
     self.fk_dict.append(connections)
     connections_to_follow_list = self.__check_for_connections(connections)
     if connections_to_follow_list:
@@ -29,8 +29,8 @@ class FixtureMaker:
 
 
   def __get_connections(self, connections_to_follow_list):
-    """This gets connections from each depth of Foreign Keys. Takes in a Connections list and loops through until 
-    there are no more foreign keys with values.  When all fk's are followed to their end it calls 
+    """This gets connections from each depth of Foreign Keys. Takes in a Connections list and loops through until
+    there are no more foreign keys with values.  When all fk's are followed to their end it calls
     __save_fixtures()"""
     fk_fields = []
     for model_dict in connections_to_follow_list:
@@ -96,18 +96,18 @@ class FixtureMaker:
       tmp_dict['relationship'] = 'ManyToMany'
       tmp_dict['values'] = []
     return tmp_dict
-    
+
 
   def __check_for_connections(self, connections):
-    """Loops through all connections and verifies that we need to go into more Foreign Keys, returns True 
+    """Loops through all connections and verifies that we need to go into more Foreign Keys, returns True
     if we do False if we don't"""
     tmp_list = []
     for model_dict in connections:
       if model_dict['values']:
-        tmp_list.append(model_dict)     
+        tmp_list.append(model_dict)
     return tmp_list
 
-      
+
   def __save_fixtures(self, all_connections):
     """Takes a properly formatted list, and makes a seperate fixture file for each different model in the list"""
     #omg loop through first, cause i'm a noob, and seperate data based on model
@@ -116,7 +116,7 @@ class FixtureMaker:
       for model_dict in depth:
         if model_dict['values']:
           try:
-            model_data_dict[model_dict['name']] = model_dict['values']       
+            model_data_dict[model_dict['name']] = model_dict['values']
           except KeyError:
             model_data_dict[model_dict['name']].extend(model_dict['values'])
     for model_name, model_values in model_data_dict.items():
@@ -127,8 +127,8 @@ class FixtureMaker:
         f.close()
       except IOError:
         print 'If you see this you most likely have to create a directory called \'fixture_maker\' in the same directory manage.py is in'
-        return 
-  
+        return
+
 def get_foreign_keys(objects, max_depth=1, excluded_models=[]):
   """
   Determine all foreign fields in a list of objects and return the objects.
